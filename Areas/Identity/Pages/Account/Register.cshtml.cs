@@ -120,6 +120,22 @@ namespace RaceDay_Part2.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    //Assign role to user
+
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Participant");
+
+                     if (!roleResult.Succeeded)
+                     {
+                        foreach (var error in roleResult.Errors)
+                        {
+                            _logger.LogError("Failed to assign role to user: {Errors}", error.Description);
+                        }
+                        //Rollback user creation if role assignment fails
+                        await _userManager.DeleteAsync(user);
+                        ModelState.AddModelError(string.Empty, "Unable to complete registration. Please try again.");
+                        return Page();
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
