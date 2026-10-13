@@ -13,6 +13,18 @@ namespace RaceDay_Part2.Controllers
             _logger = logger;
         }
 
+        public IActionResult AdminShowRegistrations()
+        {
+            return View();
+        }
+        public IActionResult AdminDashboard()
+        {
+            return View();
+        }   
+        public IActionResult AdminShowResults()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
