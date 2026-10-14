@@ -41,15 +41,16 @@ namespace RaceDay_Part2.Controllers
         }
         public async Task<IActionResult> Manage(string userId)
         {
+            ViewBag.userId = userId;
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
-                return NotFound();
+                return View("NotFound");
             }
             ViewBag.UserName = user.UserName;
             var model = new List<ManageUserRolesViewModel>();
-            foreach (var role in _roleManager.Roles)
+            foreach (var role in _roleManager.Roles.ToList())
             {
                 var userRolesViewModel = new ManageUserRolesViewModel
                 {
