@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<RaceDay_Part2.Models.ViewModels.UserRolesViewModel>
 
-    @{
+@{
     ViewData["Title"] = "User Roles Management";
-    }
-  
+}
+
 <div class='container mt-4'>
     <h2>User Roles Management</h2>
     <hr />
@@ -19,17 +19,80 @@
         <tbody>
             @foreach (var user in Model)
             {
-                <tr>
+                <tr data-userid="@user.UserId">
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     <td>
-                        @string.Join(", ", user.Roles)
+                        <span class="roles-text" data-userid="@user.UserId">@string.Join(", ", user.Roles)</span>
                     </td>
                     <td>
-                        <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-sm btn-primary">Manage Roles</a>
+                        <button type="button" class="btn btn-sm btn-primary manage-roles-btn" data-userid="@user.UserId">Manage Roles</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<!-- Roles modal -->
+<div class="modal fade" id="rolesModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Manage Roles</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- partial loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    // ensure jQuery is available
+    $(function () {
+        // open modal and load partial
+        $(document).on('click', '.manage-roles-btn', function (e) {
+            e.preventDefault();
+            var userId = $(this).data('userid');
+            $.get('@Url.Action("GetRolesPartial","UserRoles")', { userId: userId })
+                .done(function (html) {
+                    $('#rolesModal .modal-body').html(html);
+                    var modalEl = document.getElementById('rolesModal');
+                    var bsModal = new bootstrap.Modal(modalEl);
+                    bsModal.show();
+                })
+                .fail(function () {
+                    alert('Failed to load roles editor.');
+                });
+        });
+
+        // submit the form inside modal via AJAX
+        $(document).on('submit', '#rolesForm', function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var url = '@Url.Action("UpdateRolesAjax","UserRoles")';
+            var data = $form.serialize();
+
+            $.post(url, data)
+                .done(function (res) {
+                    if (res.success) {
+                        // update roles text in table
+                        $('span.roles-text[data-userid="' + res.userId + '"]').text(res.roles);
+                        // hide modal
+                        var modalEl = document.getElementById('rolesModal');
+                        var bsModal = bootstrap.Modal.getInstance(modalEl);
+                        if (bsModal) bsModal.hide();
+                    } else {
+                        alert(res.message || 'Failed to update roles.');
+                    }
+                })
+                .fail(function () {
+                    alert('Server error when updating roles.');
+                });
+        });
+    });
+</script>
+}
