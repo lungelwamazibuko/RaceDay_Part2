@@ -4,17 +4,27 @@ using RaceDay.Models;
 
 namespace RaceDay_Part2.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
+
+
         public DbSet<RaceDay.Models.TblRoute> TblRoute { get; set; } = default!;
         public DbSet<RaceDay.Models.TblCategory> TblCategory { get; set; } = default!;
         public DbSet<RaceDay.Models.TblWeather> TblWeather { get; set; } = default!;
         public DbSet<RaceDay.Models.TblEvent> TblEvent { get; set; } = default!;
         public DbSet<RaceDay.Models.TblRegistration> TblRegistration { get; set; } = default!;
         public DbSet<RaceDay.Models.TblResult> TblResult { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.Gender)
+                .HasConversion<string>()
+                .HasMaxLength(20);
+        }
     }
 }
