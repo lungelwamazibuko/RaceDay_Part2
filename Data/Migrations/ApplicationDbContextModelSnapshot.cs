@@ -379,18 +379,13 @@ namespace RaceDay_Part2.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteId"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DistanceKm")
+                    b.Property<decimal?>("DistanceKm")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
 
                     b.Property<string>("RouteName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("RouteId");
 
