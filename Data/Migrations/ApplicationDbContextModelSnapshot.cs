@@ -263,7 +263,6 @@ namespace RaceDay_Part2.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MaximumAge")
@@ -272,7 +271,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.Property<int?>("MinimumAge")
                         .HasColumnType("int");
 
-                    b.Property<int>("RouteId")
+                    b.Property<int?>("RouteId")
                         .HasColumnType("int");
 
                     b.HasKey("CategoryId");
@@ -481,9 +480,7 @@ namespace RaceDay_Part2.Data.Migrations
 
                     b.HasOne("RaceDay_Part2.Models.TblRoute", "Route")
                         .WithMany()
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RouteId");
 
                     b.Navigation("Event");
 
