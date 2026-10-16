@@ -18,4 +18,12 @@ public partial class TblEvent
 
     public string? Description { get; set; }
 
+    public EventType EventType { get; set; }
+}
+
+public enum EventType
+{
+    Run,
+    Walk,
+    Cycle
 }
