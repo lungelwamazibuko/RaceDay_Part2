@@ -1,4 +1,4 @@
-﻿@model RaceDay.Models.TblEvent
+﻿@model RaceDay_Part2.Models.TblEvent
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,8 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="EventId" />
             <div class="form-group">
@@ -33,6 +34,14 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+            <!-- EventType enum selector -->
+            <div class="form-group">
+                <label asp-for="EventType" class="control-label"></label>
+                <select asp-for="EventType" asp-items="Html.GetEnumSelectList<RaceDay_Part2.Models.EventType>()" class="form-control"></select>
+                <span asp-validation-for="EventType" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

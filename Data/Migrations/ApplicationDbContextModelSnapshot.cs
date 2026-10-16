@@ -159,178 +159,6 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblCategory", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MaximumAge")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MinimumAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RouteId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("RouteId");
-
-                    b.ToTable("TblCategory");
-                });
-
-            modelBuilder.Entity("RaceDay.Models.TblEvent", b =>
-                {
-                    b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("EventDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("TblEvent");
-                });
-
-            modelBuilder.Entity("RaceDay.Models.TblRegistration", b =>
-                {
-                    b.Property<int>("RegistrationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationId"));
-
-                    b.Property<int>("BibNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParticipantId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RegistrationStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RegistrationId");
-
-                    b.ToTable("TblRegistration");
-                });
-
-            modelBuilder.Entity("RaceDay.Models.TblResult", b =>
-                {
-                    b.Property<int>("ResultId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResultId"));
-
-                    b.Property<TimeOnly?>("FinishTime")
-                        .HasColumnType("time");
-
-                    b.Property<int?>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RegistrationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ResultStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ResultId");
-
-                    b.ToTable("TblResult");
-                });
-
-            modelBuilder.Entity("RaceDay.Models.TblRoute", b =>
-                {
-                    b.Property<int>("RouteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DistanceKm")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RouteName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RouteId");
-
-                    b.ToTable("TblRoute");
-                });
-
-            modelBuilder.Entity("RaceDay.Models.TblWeather", b =>
-                {
-                    b.Property<int>("WeatherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WeatherId"));
-
-                    b.Property<string>("Conditions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Temperature")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateOnly>("WeatherDate")
-                        .HasColumnType("date");
-
-                    b.Property<decimal?>("WindSpeed")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("WeatherId");
-
-                    b.ToTable("TblWeather");
-                });
-
             modelBuilder.Entity("RaceDay_Part2.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -416,6 +244,181 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("RaceDay_Part2.Models.TblCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MaximumAge")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MinimumAge")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RouteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("RouteId");
+
+                    b.ToTable("TblCategory");
+                });
+
+            modelBuilder.Entity("RaceDay_Part2.Models.TblEvent", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("EventDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("EventName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("TblEvent");
+                });
+
+            modelBuilder.Entity("RaceDay_Part2.Models.TblRegistration", b =>
+                {
+                    b.Property<int>("RegistrationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationId"));
+
+                    b.Property<int>("BibNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RegistrationStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RegistrationId");
+
+                    b.ToTable("TblRegistration");
+                });
+
+            modelBuilder.Entity("RaceDay_Part2.Models.TblResult", b =>
+                {
+                    b.Property<int>("ResultId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResultId"));
+
+                    b.Property<TimeOnly?>("FinishTime")
+                        .HasColumnType("time");
+
+                    b.Property<int?>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegistrationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResultStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ResultId");
+
+                    b.ToTable("TblResult");
+                });
+
+            modelBuilder.Entity("RaceDay_Part2.Models.TblRoute", b =>
+                {
+                    b.Property<int>("RouteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DistanceKm")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RouteName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RouteId");
+
+                    b.ToTable("TblRoute");
+                });
+
+            modelBuilder.Entity("RaceDay_Part2.Models.TblWeather", b =>
+                {
+                    b.Property<int>("WeatherId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WeatherId"));
+
+                    b.Property<string>("Conditions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Temperature")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateOnly>("WeatherDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal?>("WindSpeed")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("WeatherId");
+
+                    b.ToTable("TblWeather");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -467,15 +470,15 @@ namespace RaceDay_Part2.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblCategory", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblCategory", b =>
                 {
-                    b.HasOne("RaceDay.Models.TblEvent", "Event")
+                    b.HasOne("RaceDay_Part2.Models.TblEvent", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RaceDay.Models.TblRoute", "Route")
+                    b.HasOne("RaceDay_Part2.Models.TblRoute", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RaceDay.Models;
+using RaceDay_Part2.Models;
 using RaceDay_Part2.Data;
 
 namespace RaceDay_Part2.Controllers

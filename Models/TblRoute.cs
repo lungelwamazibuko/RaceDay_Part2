@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaceDay.Models;
+namespace RaceDay_Part2.Models;
 
 public partial class TblRoute
 {

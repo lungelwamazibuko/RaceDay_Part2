@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RaceDay.Models;
+using RaceDay_Part2.Models;
 using RaceDay_Part2.Data;
 
 namespace RaceDay_Part2.Controllers
 {
+    [Authorize(Roles = "Organiser")]
     public class TblEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -54,7 +56,7 @@ namespace RaceDay_Part2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDate,Location,Description")] TblEvent tblEvent)
+        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDate,Location,Description,EventType")] TblEvent tblEvent)
         {
             if (ModelState.IsValid)
             {
