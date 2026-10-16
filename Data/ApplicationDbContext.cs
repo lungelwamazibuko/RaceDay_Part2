@@ -20,9 +20,15 @@ namespace RaceDay_Part2.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
             builder.Entity<ApplicationUser>()
                 .Property(u => u.Gender)
+                .HasConversion<string>()
+                .HasMaxLength(20);
+
+            // Configure EventType enum to be stored as a string
+            builder.Entity<RaceDay_Part2.Models.TblEvent>()
+                .Property(e => e.EventType)
                 .HasConversion<string>()
                 .HasMaxLength(20);
         }
