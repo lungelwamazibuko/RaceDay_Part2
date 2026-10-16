@@ -5,6 +5,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RaceDay_Part2.Models;
 
+public enum Gender
+{
+    Male,
+    Female,
+    Other
+}
+public enum CategoryType
+{
+    AgeGroup,
+    Open,
+    Elite
+}
+public enum RouteName
+{
+    Short,
+    Medium,
+    Long
+}
+
+public enum RegistrationStatus
+{
+    Pending,
+    Confirmed,
+    Cancelled
+}
 public partial class TblCategory
 {
     [Key]
