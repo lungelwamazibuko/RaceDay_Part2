@@ -42,6 +42,20 @@ namespace RaceDay_Part2.Controllers
                 return NotFound();
             }
 
+            // Build a lightweight SelectList of categories (project only the columns we need
+            // so EF does not attempt to select columns that may be missing in the DB)
+            var categoryItems = await _context.TblCategory
+                .Where(c => c.EventId == id.Value)
+                .OrderBy(c => c.CategoryName)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.CategoryName
+                })
+                .ToListAsync();
+
+            ViewBag.CategorySelect = categoryItems;
+
             return View(tblEvent);
         }
 
