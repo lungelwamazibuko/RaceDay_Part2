@@ -1,0 +1,64 @@
+@page "{id:int}"
+@model RaceDay_Part2.Pages.Organiser.Categories.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblCategory</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TblCategory.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TblCategory.CategoryName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TblCategory.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TblCategory.Gender)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TblCategory.MinimumAge)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TblCategory.MinimumAge)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TblCategory.MaximumAge)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TblCategory.MaximumAge)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TblCategory.DistanceKm)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TblCategory.DistanceKm)
+        </dd>
+
+        <dt class="col-sm-2">Event</dt>
+        <dd class="col-sm-10">
+            @Model.TblCategory.Event?.EventName
+        </dd>
+
+        <dt class="col-sm-2">Route</dt>
+        <dd class="col-sm-10">
+            @Model.TblCategory.Route?.RouteName
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.TblCategory.CategoryId" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>
