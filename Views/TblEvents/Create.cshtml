@@ -2,14 +2,22 @@
 
 @{
     ViewData["Title"] = "Create Event";
+    var newEventId = TempData.Peek("NewEventId");
 }
 
 <h1>Create</h1>
-
 <h4>TblEvent</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @if (newEventId != null)
+        {
+            <script>
+                // client-side redirect to the Razor Page that creates categories
+                window.location.href = '/Views/TblCategories/Create?eventId=@newEventId';
+            </script>
+        }
+
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -28,7 +36,7 @@
 
             <div class="form-group">
                 <label asp-for="EventDate" class="control-label"></label>
-                <input asp-for="EventDate" type="datetime-local" class="form-control" />
+                <input asp-for="EventDate" type="date" class="form-control" />
                 <span asp-validation-for="EventDate" class="text-danger"></span>
             </div>
 
@@ -40,21 +48,20 @@
 
             <div class="form-group">
                 <label asp-for="EventType" class="control-label"></label>
-                <select asp-for="EventType" asp-items="Html.GetEnumSelectList<RaceDay_Part2.Models.EventType>()" class="form-control"></select>
+                <select asp-for="EventType" class="form-control"
+                        asp-items="@(Html.GetEnumSelectList<RaceDay_Part2.Models.EventType>())">
+                </select>
                 <span asp-validation-for="EventType" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Create</button>
-            <a asp-action="Index" class="btn btn-secondary">Back to list</a>
+            <button type="submit" class="btn btn-primary">Create Event and Add Categories</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+
 
