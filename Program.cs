@@ -28,7 +28,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
-    await context.Database.MigrateAsync();
+    context.Database.Migrate();
 
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var roles = new[] { "Admin", "Participant", "Organiser" };
