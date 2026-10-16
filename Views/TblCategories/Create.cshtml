@@ -12,7 +12,7 @@
 
     <div class="form-group">
         <label asp-for="EventId" class="control-label"></label>
-        <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId">
+        <select id="EventId" asp-for="EventId" class="form-control" asp-items="ViewBag.EventId">
             <option value="">-- Select event --</option>
         </select>
         <span asp-validation-for="EventId" class="text-danger"></span>
@@ -20,16 +20,38 @@
 
     <div class="form-group">
         <label asp-for="RouteId" class="control-label"></label>
-        <select asp-for="RouteId" class="form-control" asp-items="ViewBag.RouteId">
+        <select id="RouteId" asp-for="RouteId" class="form-control">
             <option value="">-- Select route --</option>
+            @if (ViewBag.RouteId is IEnumerable<SelectListItem> routeItems)
+            {
+                foreach (var it in routeItems)
+                {
+                    <option value="@it.Value" selected="@(it.Value == Model.RouteId.ToString() ? "selected" : null)">@it.Text</option>
+                }
+            }
         </select>
         <span asp-validation-for="RouteId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Gender" class="control-label"></label>
+        <select asp-for="Gender" class="form-control" asp-items="ViewBag.Genders">
+            <option value="">-- Select gender --</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="CategoryName" class="control-label"></label>
         <input asp-for="CategoryName" class="form-control" />
         <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Category Type</label>
+        <select name="CategoryType" class="form-control" asp-items="ViewBag.CategoryTypes">
+            <option value="">-- Select type --</option>
+        </select>
     </div>
 
     <!-- other fields -->
@@ -39,5 +61,42 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        const eventSelect = document.getElementById('EventId');
+        const routeSelect = document.getElementById('RouteId');
+
+        async function loadRoutes(eventId, selectedRouteId) {
+            routeSelect.innerHTML = '<option>Loading...</option>';
+            try {
+                const url = '@Url.Action("GetRoutes","TblCategories")' + '?eventId=' + encodeURIComponent(eventId);
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(res.statusText);
+                const data = await res.json();
+                routeSelect.innerHTML = '<option value="">-- Select route --</option>';
+                data.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r.id;
+                    opt.text = r.text;
+                    if (selectedRouteId && selectedRouteId.toString() === r.id.toString()) opt.selected = true;
+                    routeSelect.add(opt);
+                });
+            } catch (e) {
+                routeSelect.innerHTML = '<option value="">-- Error loading routes --</option>';
+                console.error(e);
+            }
+        }
+
+        eventSelect?.addEventListener('change', () => {
+            const ev = eventSelect.value;
+            if (ev) loadRoutes(ev);
+            else routeSelect.innerHTML = '<option value="">-- Select route --</option>';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ev = eventSelect?.value;
+            const selectedRoute = '@(Model.RouteId)';
+            if (ev) loadRoutes(ev, selectedRoute);
+        });
+    </script>
 }
 
