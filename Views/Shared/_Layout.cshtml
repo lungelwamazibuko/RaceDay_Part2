@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Azure.Core
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,15 +27,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @* Admin links *@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserRoles" asp-action="Index">Manage Users</a>
+                                <a class="nav-link text-dark" asp-controller="UserRoles" asp-action="Index">Manage Users</a>
                             </li>
-                        }else if (User.IsInRole("Organiser"))
+                        }
+
+                        @* Organiser links *@
+                        @if (User.IsInRole("Organiser"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblEvents" asp-action="Create">Create Event</a>
+                                <a class="nav-link text-dark" asp-controller="TblEvents" asp-action="Create">Create Event</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="TblCategories" asp-action="Create">Create Category</a>
                             </li>
                         }
                     </ul>
@@ -60,3 +69,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
