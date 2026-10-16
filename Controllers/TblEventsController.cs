@@ -58,13 +58,13 @@ namespace RaceDay_Part2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventId,EventName,EventDate,Location,Description,EventType")] TblEvent tblEvent)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tblEvent);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tblEvent);
+            if (!ModelState.IsValid) return View(tblEvent);
+
+            _context.Add(tblEvent);
+            await _context.SaveChangesAsync();
+
+            // Redirect to the TblCategories Create action, passing eventId
+            return RedirectToAction("Create", "TblCategories", new { eventId = tblEvent.EventId });
         }
 
         // GET: TblEvents/Edit/5
@@ -113,7 +113,8 @@ namespace RaceDay_Part2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["NewEventId"] = tblEvent.EventId;
+                return View(tblEvent);
             }
             return View(tblEvent);
         }
