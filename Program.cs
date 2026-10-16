@@ -15,10 +15,15 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // add this
 builder.Services.AddScoped<IProfileImageService, ProfileImageService>();
 
 
 var app = builder.Build();
+app.UseStaticFiles();
+app.UseRouting();
+app.MapRazorPages(); // add this
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

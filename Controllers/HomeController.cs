@@ -20,11 +20,18 @@ namespace RaceDay_Part2.Controllers
         public IActionResult AdminDashboard()
         {
             return View();
-        }   
+        }
         public IActionResult AdminShowResults()
         {
             return View();
         }
+
+        // Added organiser dashboard action
+        public IActionResult OrganiserDashboard()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
