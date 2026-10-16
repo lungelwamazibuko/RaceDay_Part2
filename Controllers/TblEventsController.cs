@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RaceDay.Models;
+using RaceDay_Part2.Models;
 using RaceDay_Part2.Data;
 
 namespace RaceDay_Part2.Controllers
 {
+    [Authorize(Roles = "Organiser")]
     public class TblEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -40,6 +42,20 @@ namespace RaceDay_Part2.Controllers
                 return NotFound();
             }
 
+            // Build a lightweight SelectList of categories (project only the columns we need
+            // so EF does not attempt to select columns that may be missing in the DB)
+            var categoryItems = await _context.TblCategory
+                .Where(c => c.EventId == id.Value)
+                .OrderBy(c => c.CategoryName)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.CategoryName
+                })
+                .ToListAsync();
+
+            ViewBag.CategorySelect = categoryItems;
+
             return View(tblEvent);
         }
 
@@ -54,15 +70,15 @@ namespace RaceDay_Part2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDate,Location,Description")] TblEvent tblEvent)
+        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDate,Location,Description,EventType")] TblEvent tblEvent)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tblEvent);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tblEvent);
+            if (!ModelState.IsValid) return View(tblEvent);
+
+            _context.Add(tblEvent);
+            await _context.SaveChangesAsync();
+
+            // Redirect to the TblCategories Create action, passing eventId
+            return RedirectToAction("Create", "TblCategories", new { eventId = tblEvent.EventId });
         }
 
         // GET: TblEvents/Edit/5
@@ -111,7 +127,8 @@ namespace RaceDay_Part2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["NewEventId"] = tblEvent.EventId;
+                return View(tblEvent);
             }
             return View(tblEvent);
         }

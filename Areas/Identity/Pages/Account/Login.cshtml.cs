@@ -115,21 +115,27 @@ namespace RaceDay_Part2.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    if(User.IsInRole("Admin"))
+                    // Get the ApplicationUser from the store and check roles via UserManager
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    if (user != null)
                     {
-                        _logger.LogInformation("Admin logged in.");
-                        return RedirectToAction("AdminDashboard", "Home");
+                        if (await _signInManager.UserManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            _logger.LogInformation("Admin logged in.");
+                            return RedirectToAction("AdminDashboard", "Home");
+                        }
+                        else if (await _signInManager.UserManager.IsInRoleAsync(user, "Organiser"))
+                        {
+                            _logger.LogInformation("Organiser logged in.");
+                            return RedirectToAction("OrganiserDashboard", "Home");
+                        }
+                        else if (await _signInManager.UserManager.IsInRoleAsync(user, "Participant"))
+                        {
+                            _logger.LogInformation("Participant logged in.");
+                            return RedirectToPage("./Manage/Index");
+                        }
                     }
-                    else if(User.IsInRole("Organiser"))
-                    {
-                        _logger.LogInformation("Organiser logged in.");
-                        return RedirectToAction("OrganiserDashboard", "Home");
-                    }
-                    else if(User.IsInRole("Participant"))
-                    {
-                        _logger.LogInformation("Participant logged in.");
-                        return RedirectToPage("./Manage/Index");
-                    }
+
                     _logger.LogInformation("User logged in.");
                     return RedirectToPage("./Manage/Index");
                     // return LocalRedirect(returnUrl);

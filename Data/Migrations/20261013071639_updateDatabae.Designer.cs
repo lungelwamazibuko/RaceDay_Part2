@@ -227,7 +227,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblCategory", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblCategory", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -263,7 +263,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("TblCategory");
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblEvent", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblEvent", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
@@ -290,7 +290,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("TblEvent");
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblRegistration", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblRegistration", b =>
                 {
                     b.Property<int>("RegistrationId")
                         .ValueGeneratedOnAdd()
@@ -319,7 +319,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("TblRegistration");
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblResult", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblResult", b =>
                 {
                     b.Property<int>("ResultId")
                         .ValueGeneratedOnAdd()
@@ -345,7 +345,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("TblResult");
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblRoute", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblRoute", b =>
                 {
                     b.Property<int>("RouteId")
                         .ValueGeneratedOnAdd()
@@ -371,7 +371,7 @@ namespace RaceDay_Part2.Data.Migrations
                     b.ToTable("TblRoute");
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblWeather", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblWeather", b =>
                 {
                     b.Property<int>("WeatherId")
                         .ValueGeneratedOnAdd()
@@ -450,15 +450,15 @@ namespace RaceDay_Part2.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RaceDay.Models.TblCategory", b =>
+            modelBuilder.Entity("RaceDay_Part2.Models.TblCategory", b =>
                 {
-                    b.HasOne("RaceDay.Models.TblEvent", "Event")
+                    b.HasOne("RaceDay_Part2.Models.TblEvent", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RaceDay.Models.TblRoute", "Route")
+                    b.HasOne("RaceDay_Part2.Models.TblRoute", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaceDay.Models;
+namespace RaceDay_Part2.Models;
+public enum EventType
+{
+    Run,
+    Walk,
+    Cycle
+}
 
 public partial class TblEvent
 {
@@ -18,4 +24,7 @@ public partial class TblEvent
 
     public string? Description { get; set; }
 
+    public EventType EventType { get; set; }
 }
+
+

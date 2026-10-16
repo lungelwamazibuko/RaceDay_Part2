@@ -1,56 +1,80 @@
-﻿@model RaceDay.Models.TblCategory
+﻿@model RaceDay_Part2.Models.TblCategory
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>TblCategory</h4>
+<h4>Add Category for Event</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" class ="form-control" asp-items="ViewBag.EventId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RouteId" class="control-label"></label>
-                <select asp-for="RouteId" class ="form-control" asp-items="ViewBag.RouteId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinimumAge" class="control-label"></label>
-                <input asp-for="MinimumAge" class="form-control" />
-                <span asp-validation-for="MinimumAge" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaximumAge" class="control-label"></label>
-                <input asp-for="MaximumAge" class="form-control" />
-                <span asp-validation-for="MaximumAge" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<form asp-action="Create" method="post" novalidate>
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    @* If an Event is preselected show its name read-only and include hidden EventId so it posts *@
+    @if (Model.EventId != 0 && ViewBag.SelectedEventName != null)
+    {
+        <div class="form-group">
+            <label class="control-label">Event</label>
+            <input class="form-control" value="@ViewBag.SelectedEventName" readonly />
+            <input type="hidden" asp-for="EventId" />
+            <span asp-validation-for="EventId" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label asp-for="EventId" class="control-label"></label>
+            <select id="EventId" asp-for="EventId" class="form-control" asp-items="ViewBag.EventId">
+                <option value="">-- Select event --</option>
+            </select>
+            <span asp-validation-for="EventId" class="text-danger"></span>
+        </div>
+    }
+
+    <div class="form-group">
+        <label asp-for="RouteId" class="control-label"></label>
+        <select id="RouteId" asp-for="RouteId" class="form-control" asp-items="ViewBag.RouteId">
+            <option value="">-- Select route --</option> @* optional; empty becomes null for int? *@
+        </select>
+        <span asp-validation-for="RouteId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryName" class="control-label"></label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-3">
+            <label asp-for="Gender" class="control-label"></label>
+            <select asp-for="Gender" class="form-control" asp-items="ViewBag.Genders"></select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="MinimumAge" class="control-label"></label>
+            <input asp-for="MinimumAge" class="form-control" />
+            <span asp-validation-for="MinimumAge" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="MaximumAge" class="control-label"></label>
+            <input asp-for="MaximumAge" class="form-control" />
+            <span asp-validation-for="MaximumAge" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="DistanceKm" class="control-label"></label>
+            <input asp-for="DistanceKm" class="form-control" />
+            <span asp-validation-for="DistanceKm" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Add Category</button>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
