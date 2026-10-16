@@ -34,25 +34,23 @@ public partial class TblCategory
 {
     [Key]
     public int CategoryId { get; set; }
+
     [Required]
     public int EventId { get; set; }
-        
-    [Required]
-    public int RouteId { get; set; }        // keep if used
+
+    // Make RouteId nullable to match the database and avoid ModelState errors
+    public int? RouteId { get; set; } = null;
+
     [Required]
     public string CategoryName { get; set; } = null!;
-    [Required]
+
     public string? Gender { get; set; }
     public int? MinimumAge { get; set; }
-
     public int? MaximumAge { get; set; }
-
-    public double? DistanceKm { get; set; } // new: distance in km
+    public double? DistanceKm { get; set; } // consider changing to decimal? later
 
     public virtual TblEvent? Event { get; set; }
-
-    public virtual TblRoute Route { get; set; } = null!;
-
+    public virtual TblRoute? Route { get; set; }
 }
 
 public class CategoryViewModel
