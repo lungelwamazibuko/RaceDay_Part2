@@ -1,65 +1,59 @@
 ﻿@model IEnumerable<RaceDay_Part2.Models.TblCategory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
+<h1>Categories</h1>
+
+@if (ViewBag.DbIssue != null)
+{
+    <div class="alert alert-warning">
+        <strong>Database problem:</strong> @ViewBag.DbIssue
+    </div>
+}
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Category</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinimumAge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaximumAge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Event)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Route)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinimumAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaximumAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Event.EventId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Route.RouteId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No categories found.</div>
 }
-    </tbody>
-</table>
+else
+{
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Event</th>
+                <th>Route</th>
+                <th>Gender</th>
+                <th>Min Age</th>
+                <th>Max Age</th>
+                <th>Distance (km)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(_ => item.CategoryName)</td>
+                    <td>@(item.Event?.EventName ?? "—")</td>
+                    <td>@(item.Route?.RouteName ?? "—")</td>
+                    <td>@item.Gender</td>
+                    <td>@item.MinimumAge</td>
+                    <td>@item.MaximumAge</td>
+                    <td>@(item.DistanceKm?.ToString("0.##") ?? "—")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-sm btn-link">View</a>
+                        <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

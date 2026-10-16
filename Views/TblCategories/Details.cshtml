@@ -10,45 +10,39 @@
     <h4>TblCategory</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CategoryName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.CategoryName)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Gender)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Gender)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MinimumAge)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.MinimumAge)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MaximumAge)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.MaximumAge)</dd>
+
+        <dt class="col-sm-2">Event</dt>
+        <dd class="col-sm-10">
+            @if (Model?.Event != null)
+            {
+                <a asp-controller="TblEvents" asp-action="Details" asp-route-id="@Model.Event.EventId">@Model.Event.EventName</a>
+            }
+            else
+            {
+                <span>—</span>
+            }
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MinimumAge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MinimumAge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaximumAge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaximumAge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Event)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Event.EventId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Route)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Route.RouteId)
-        </dd>
+
+        <dt class="col-sm-2">Route</dt>
+        <dd class="col-sm-10">@Model?.Route?.RouteName ?? "—"</dd>
+
+        <dt class="col-sm-2">Distance (km)</dt>
+        <dd class="col-sm-10">@(Model.DistanceKm.HasValue ? Model.DistanceKm.Value.ToString("0.##") : "—")</dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CategoryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
